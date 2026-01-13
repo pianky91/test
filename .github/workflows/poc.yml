@@ -1,0 +1,17 @@
+name: PoC Workflow
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show issue data
+        run: |
+          echo "ISSUE TITLE:"
+          echo "${{ github.event.issue.title }}"
+
+          echo "ISSUE BODY:"
+          echo "${{ github.event.issue.body }}"
