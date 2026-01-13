@@ -1,14 +1,22 @@
-name: PoC Workflow
+name: Issue Trigger Write Test
 
 on:
   issues:
     types: [opened]
 
+permissions:
+  issues: write
+
 jobs:
   poc:
     runs-on: ubuntu-latest
     steps:
-      - name: Vulnerable step
+      - name: Write comment using GITHUB_TOKEN
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Running issue title as command"
-          bash -c "${{ github.event.issue.title }}"
+          curl -s -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+            -d '{"body":"⚠️ Comment created by issue-triggered workflow"}'
