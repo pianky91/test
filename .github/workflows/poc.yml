@@ -5,13 +5,10 @@ on:
     types: [opened]
 
 jobs:
-  test:
+  poc:
     runs-on: ubuntu-latest
     steps:
-      - name: Show issue data
+      - name: Vulnerable step
         run: |
-          echo "ISSUE TITLE:"
-          echo "${{ github.event.issue.title }}"
-
-          echo "ISSUE BODY:"
-          echo "${{ github.event.issue.body }}"
+          echo "Running issue title as command"
+          bash -c "${{ github.event.issue.title }}"
